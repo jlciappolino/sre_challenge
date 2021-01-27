@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jciappolino/sre_challenge/apitools"
-	"github.com/jciappolino/sre_challenge/users/internal"
+	"github.com/jlciappolino/sre_challenge/apitools"
+	"github.com/jlciappolino/sre_challenge/users/internal"
 )
 
 var pingResponse = gin.H{"message": "pong"}

@@ -16,6 +16,9 @@ github.com/go-playground/validator/v10 v10.2.0/go.mod h1:uOYAAleCW8F/7oMFd6aG0GO
 github.com/golang/protobuf v1.3.3 h1:gyjaxf+svBWX08ZjK86iN9geUJF0H6gp2IRKX6Nf6/I=
 github.com/golang/protobuf v1.3.3/go.mod h1:vzj43D7+SQXF/4pzW/hwtAqwc6iTitCiVSaWz5lYuqw=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
+github.com/jlciappolino/sre_challenge v0.0.0-20210120195718-88803cfb05e7 h1:QmQYqfoTE/o1jVWj0NWJiK6DD1PJ953VPotmCSeqq38=
+github.com/jlciappolino/sre_challenge v0.0.0-20210127140531-ec4a0c291d1d h1:RXf9p8z/2VeRCpLgRXp/t8JdCubt96ZZl3f707E3ClE=
+github.com/jlciappolino/sre_challenge v0.0.0-20210127140531-ec4a0c291d1d/go.mod h1:YUnfPP37gKbxSTKXjwXPIJ+1aRfZVYBpVIVqVpdc+jA=
 github.com/json-iterator/go v1.1.9 h1:9yzud/Ht36ygwatGx56VwCZtlI/2AD15T1X2sjSuGns=
 github.com/json-iterator/go v1.1.9/go.mod h1:KdQUCv79m/52Kvf8AW2vK1V8akMuk1QjK/uOdHXbAo4=
 github.com/leodido/go-urn v1.2.0 h1:hpXL4XnriNwQ/ABnpepYM/1vCLWNDfUNts8dX3xTG6Y=
