@@ -1,21 +1,24 @@
 package main
 
 import (
-	"fmt"
-	"html"
-	"log"
-	"net/http"
+	"math/rand"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jciappolino/sre_challenge/apitools"
+	"github.com/jciappolino/sre_challenge/users/internal"
 )
 
+var pingResponse = gin.H{"message": "pong"}
+
 func main() {
+	rand.Seed(time.Now().Unix())
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Estas en users, %q", html.EscapeString(r.URL.Path))
-	})
+	r := apitools.NewChallengeRouter()
 
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "pong")
-	})
+	handler := internal.NewUserHandler(internal.NewInMemoryStorage())
 
-	log.Fatal(http.ListenAndServe(":8181", nil))
+	r.GET("/users/:id", handler.Get)
+
+	r.Run()
 }
