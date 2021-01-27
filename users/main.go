@@ -1,9 +1,6 @@
 package main
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/jlciappolino/sre_challenge/apitools"
 	"github.com/jlciappolino/sre_challenge/users/internal"
@@ -12,8 +9,6 @@ import (
 var pingResponse = gin.H{"message": "pong"}
 
 func main() {
-	rand.Seed(time.Now().Unix())
-
 	r := apitools.NewChallengeRouter()
 
 	handler := internal.NewUserHandler(internal.NewInMemoryStorage())

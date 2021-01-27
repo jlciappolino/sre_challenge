@@ -21,6 +21,8 @@ github.com/jlciappolino/sre_challenge v0.0.0-20210127140531-ec4a0c291d1d h1:RXf9
 github.com/jlciappolino/sre_challenge v0.0.0-20210127140531-ec4a0c291d1d/go.mod h1:YUnfPP37gKbxSTKXjwXPIJ+1aRfZVYBpVIVqVpdc+jA=
 github.com/jlciappolino/sre_challenge v0.0.0-20210127143625-c707204e7478 h1:H46LwgraQnQSMbUbOKFDHg6jlIqXfWlYcwCb9sRZnz4=
 github.com/jlciappolino/sre_challenge v0.0.0-20210127143625-c707204e7478/go.mod h1:YUnfPP37gKbxSTKXjwXPIJ+1aRfZVYBpVIVqVpdc+jA=
+github.com/jlciappolino/sre_challenge v0.0.0-20210127143830-60a6f0be9d4b h1:y2sLcqA7R0E8oLtEeB/lUy1RQ8ZJAYsn5y5j9/xiPq4=
+github.com/jlciappolino/sre_challenge v0.0.0-20210127143830-60a6f0be9d4b/go.mod h1:YUnfPP37gKbxSTKXjwXPIJ+1aRfZVYBpVIVqVpdc+jA=
 github.com/json-iterator/go v1.1.9 h1:9yzud/Ht36ygwatGx56VwCZtlI/2AD15T1X2sjSuGns=
 github.com/json-iterator/go v1.1.9/go.mod h1:KdQUCv79m/52Kvf8AW2vK1V8akMuk1QjK/uOdHXbAo4=
 github.com/leodido/go-urn v1.2.0 h1:hpXL4XnriNwQ/ABnpepYM/1vCLWNDfUNts8dX3xTG6Y=

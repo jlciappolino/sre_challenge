@@ -1,13 +1,23 @@
 package apitools
 
-import "github.com/gin-gonic/gin"
+import (
+	"math/rand"
+	"time"
 
+	"github.com/gin-gonic/gin"
+)
+
+var pingResponse = gin.H{"message": "pong"}
+
+//NewChallengeRouter returns a router with basic config for the challenge
 func NewChallengeRouter() *gin.Engine {
 	r := gin.Default()
 
-	chaosMiddleware := NewChaoticMiddleware(10)
+	rand.Seed(time.Now().Unix())
 
-	r.use(chaosMiddleware.Handle)
+	chaosMiddleware := NewChaoticMiddleware(8)
+
+	r.Use(chaosMiddleware.Handle)
 
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, pingResponse)
