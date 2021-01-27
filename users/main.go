@@ -1,21 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"html"
-	"log"
-	"net/http"
+	"github.com/gin-gonic/gin"
+	"github.com/jlciappolino/sre_challenge/apitools"
+	"github.com/jlciappolino/sre_challenge/users/internal"
 )
 
+var pingResponse = gin.H{"message": "pong"}
+
 func main() {
+	r := apitools.NewChallengeRouter()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Estas en users, %q", html.EscapeString(r.URL.Path))
-	})
+	handler := internal.NewUserHandler(internal.NewInMemoryStorage())
 
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "pong")
-	})
+	r.GET("/users/:id", handler.Get)
 
-	log.Fatal(http.ListenAndServe(":8181", nil))
+	r.Run()
 }

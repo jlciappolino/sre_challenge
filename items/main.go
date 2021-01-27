@@ -1,21 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"html"
-	"log"
-	"net/http"
+	"github.com/jlciappolino/sre_challenge/apitools"
 )
 
 func main() {
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Estas en items, %q", html.EscapeString(r.URL.Path))
-	})
+	r := apitools.NewChallengeRouter()
 
-	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "pong")
-	})
+	//handler := newHandler TODO
 
-	log.Fatal(http.ListenAndServe(":8181", nil))
+	//r.GET("/items/:id", handler.Get)
+
+	r.Run()
 }
