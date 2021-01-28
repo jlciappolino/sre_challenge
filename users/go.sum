@@ -1,3 +1,5 @@
+github.com/bxcodec/faker/v3 v3.5.0 h1:Rahy6dwbd6up0wbwbV7dFyQb+jmdC51kpATuUdnzfMg=
+github.com/bxcodec/faker/v3 v3.5.0/go.mod h1:gF31YgnMSMKgkvl+fyEo1xuSMbEuieyqfeslGYFjneM=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -16,6 +18,7 @@ github.com/go-playground/validator/v10 v10.2.0/go.mod h1:uOYAAleCW8F/7oMFd6aG0GO
 github.com/golang/protobuf v1.3.3 h1:gyjaxf+svBWX08ZjK86iN9geUJF0H6gp2IRKX6Nf6/I=
 github.com/golang/protobuf v1.3.3/go.mod h1:vzj43D7+SQXF/4pzW/hwtAqwc6iTitCiVSaWz5lYuqw=
 github.com/google/gofuzz v1.0.0/go.mod h1:dBl0BpW6vV/+mYPU4Po3pmUjxk6FQPldtuIdl/M65Eg=
+github.com/jlciappolino/sre_challenge v0.0.0-20210127185731-6badf50dfb99 h1:Ts+4zrcSUcMyUG9PgmTFEYq0trvgEFBEzff00TUtnN8=
 github.com/jlciappolino/sre_challenge/apitools v0.0.1 h1:Olg2zwI2w7hVetgTo0VL6AWlwro0zwqUvX8L8lf5rNs=
 github.com/jlciappolino/sre_challenge/apitools v0.0.1/go.mod h1:3VzT1xKmJ5tAEDleNtDYHJmzCdgzSCzMlsW36tHXdHA=
 github.com/json-iterator/go v1.1.9 h1:9yzud/Ht36ygwatGx56VwCZtlI/2AD15T1X2sjSuGns=
