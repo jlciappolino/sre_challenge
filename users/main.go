@@ -5,18 +5,26 @@ import (
 	"github.com/jlciappolino/sre_challenge/apitools"
 	"github.com/jlciappolino/sre_challenge/apitools/infra"
 	"github.com/jlciappolino/sre_challenge/users/internal"
+	"net/http"
 )
 
 var pingResponse = gin.H{"message": "pong"}
 
 func main() {
+	check := gin.New()
 	r := apitools.NewChallengeRouter()
 
 	rdb :=infra.NewRedisConn()
 
-	handler := internal.NewUserHandler(rdb)
+	handler := internal.NewUserHandler(rdb.Client)
 
 	r.GET("/users/:id", handler.Get)
+	check.GET("/users/ping", func(context *gin.Context) {
+		context.JSON(http.StatusOK,"pong")
+		return
+	})
 
 	r.Run()
+	check.Run(":8081")
+
 }

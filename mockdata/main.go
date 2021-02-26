@@ -32,5 +32,5 @@ func main() {
 		mockUsers.Do(i, items)
 
 	}
-
+	fmt.Print("finish mock data")
 }

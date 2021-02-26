@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"strings"
 	"sync"
 	"time"
 
@@ -23,10 +24,14 @@ type chaoticMiddleware struct {
 }
 
 func (m *chaoticMiddleware) Handle(c *gin.Context) {
-	m.chaosStrategy.MakeChaos(c)
+	if strings.Contains(c.FullPath(),"ping"){
+		m.chaosStrategy = m.chaosStrategies[0]
+	}else{
+		m.chaosStrategy.MakeChaos(c)
 
-	if rand.Intn(100) < m.changeFactor {
-		m.changeStrategy()
+		if rand.Intn(100) < m.changeFactor {
+			m.changeStrategy()
+		}
 	}
 }
 
