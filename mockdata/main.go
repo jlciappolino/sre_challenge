@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 
 	"github.com/jlciappolino/sre_challenge/apitools/infra"
 	"github.com/mercadolibre/sre_challenge/mockdata/domain"
@@ -18,6 +19,8 @@ func main() {
 
 	for i := 1; i < 20; i++ {
 		items := []*domain.Item{}
+
+		rand.Seed(time.Now().UnixNano())
 
 		for j := 1; j < rand.Intn(10); j++ {
 			idItem++
