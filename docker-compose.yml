@@ -6,8 +6,6 @@ services:
     entrypoint: "go run main.go"
     depends_on:
       - redis
-    networks:
-      - mynetwork
 
   client:
     build: ./client
@@ -15,45 +13,39 @@ services:
   currency_conversions:
     build: ./currency_conversions
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://currency_conversions:8081/currency_conversions/ping" ]
+      test: [ "CMD", "curl", "-f", "http://currency_conversions:8080/check/currency_conversions/ping" ]
       interval: 100ms
-      timeout: 100ms
+      timeout: 1s
       retries: 5
 
   items:
     build: ./items
     depends_on:
       - redis
-    networks:
-      - mynetwork
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://items:8081/items/ping" ]
+      test: [ "CMD", "curl", "-f", "http://items:8080/check/items/ping" ]
       interval: 100ms
-      timeout: 100ms
+      timeout: 1s
       retries: 5
 
   sold_items:
     build: ./sold_items
     depends_on:
       - redis
-    networks:
-      - mynetwork
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://sold_items:8081/sold_items/ping" ]
+      test: [ "CMD", "curl", "-f", "http://sold_items:8080/check/sold_items/ping" ]
       interval: 100ms
-      timeout: 100ms
+      timeout: 1s
       retries: 5
 
   users:
     build: ./users
     depends_on:
       - redis
-    networks:
-      - mynetwork
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://users:8081/users/ping"]
+      test: ["CMD", "curl", "-f", "http://users:8080/check/users/ping"]
       interval: 100ms
-      timeout: 100ms
+      timeout: 1s
       retries: 5
 
   ngnix:
@@ -76,9 +68,3 @@ services:
   redis:
     image: "redis:alpine"
     command: ["redis-server", "--bind", "redis", "--port", "6379" ]
-    networks:
-        - mynetwork
-
-networks:
-  mynetwork:
-    driver: bridge
