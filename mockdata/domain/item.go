@@ -6,7 +6,7 @@ import "encoding/json"
 type Item struct {
 	ID          string  `json:"id" faker:"-"`
 	Description string  `json:"description" faker:"word"`
-	Price       float64 `json:"price" faker:"price"`
+	Price       float64 `json:"price" faker:"amount"`
 }
 
 func (s *Item) MarshalBinary() ([]byte, error) {

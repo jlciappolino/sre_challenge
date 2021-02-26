@@ -17,7 +17,7 @@ func main() {
 	idItem := 0
 
 	for i := 1; i < 20; i++ {
-		var items []*domain.Item
+		items := []*domain.Item{}
 
 		for j := 1; j < rand.Intn(10); j++ {
 			idItem++

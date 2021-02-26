@@ -30,6 +30,8 @@ func (mock mockUser) Do(externalId int, items []*domain.Item) {
 		fmt.Printf("unable to store user struct into storage due to: %s \n", err)
 		return
 	}
+
+	fmt.Printf("stored user: %v", user)
 }
 
 func generateUserMockData(id int) *domain.User {
