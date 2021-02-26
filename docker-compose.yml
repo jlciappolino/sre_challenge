@@ -1,21 +1,45 @@
 version: "2.1"
 
 services:
+  mockdata:
+    build: ./mockdata
+    entrypoint: "go run main.go"
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+
   client:
     build: ./client
-  
+    depends_on:
+      - redis
+
   currency_conversions:
     build: ./currency_conversions
+    depends_on:
+      - redis
 
   items:
     build: ./items
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
 
   sold_items:
     build: ./sold_items
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
 
   users:
     build: ./users
-    
+    depends_on:
+      - redis
+    networks:
+      - mynetwork
+
   ngnix:
     build: ./nginx/
     ports:
@@ -23,3 +47,13 @@ services:
     volumes: 
       - ./nginx/html:/usr/share/nginx/html:ro
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+  redis:
+    image: "redis:alpine"
+    command: ["redis-server", "--bind", "redis", "--port", "6379" ]
+    networks:
+        - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
