@@ -7,19 +7,15 @@ import (
 )
 
 func main() {
-	check := gin.New()
-
 	r := apitools.NewChallengeRouter()
 
 	//handler := newHandler TODO
 
 	//r.GET("/items/:id", handler.Get)
-	check.GET("/items/ping", func(context *gin.Context) {
+	r.GET("/check/items/ping", func(context *gin.Context) {
 		context.JSON(http.StatusOK,"pong")
 		return
 	})
 
 	r.Run()
-	check.Run(":8081")
-
 }

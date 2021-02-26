@@ -24,7 +24,7 @@ type chaoticMiddleware struct {
 }
 
 func (m *chaoticMiddleware) Handle(c *gin.Context) {
-	if strings.Contains(c.FullPath(),"ping"){
+	if strings.Contains(c.FullPath(),"check"){
 		m.chaosStrategy = m.chaosStrategies[0]
 	}else{
 		m.chaosStrategy.MakeChaos(c)

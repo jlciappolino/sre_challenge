@@ -11,7 +11,6 @@ import (
 var pingResponse = gin.H{"message": "pong"}
 
 func main() {
-	check := gin.New()
 	r := apitools.NewChallengeRouter()
 
 	rdb :=infra.NewRedisConn()
@@ -19,12 +18,10 @@ func main() {
 	handler := internal.NewUserHandler(rdb.Client)
 
 	r.GET("/users/:id", handler.Get)
-	check.GET("/users/ping", func(context *gin.Context) {
+	r.GET("/check/users/ping", func(context *gin.Context) {
 		context.JSON(http.StatusOK,"pong")
 		return
 	})
 
 	r.Run()
-	check.Run(":8081")
-
 }
