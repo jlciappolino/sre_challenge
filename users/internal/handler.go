@@ -2,8 +2,9 @@ package internal
 
 import (
 	"context"
-	"github.com/go-redis/redis/v8"
 	"net/http"
+
+	"github.com/go-redis/redis/v8"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,9 +26,9 @@ func (h *UsersHandler) Get(c *gin.Context) {
 
 	id := c.Param("id")
 
-	u, err := h.storage.Get(ctx,id).Result()
-	if err != nil{
-		if err == redis.Nil{
+	u, err := h.storage.Get(ctx, "user-"+id).Result()
+	if err != nil {
+		if err == redis.Nil {
 			c.JSON(http.StatusNotFound, gin.H{"message": "user not found"})
 			return
 		}

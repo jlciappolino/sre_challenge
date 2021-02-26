@@ -14,7 +14,7 @@ services:
     build: ./currency_conversions
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://currency_conversions:8080/check/currency_conversions/ping" ]
-      interval: 100ms
+      interval: 10s
       timeout: 1s
       retries: 5
 
@@ -24,7 +24,7 @@ services:
       - redis
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://items:8080/check/items/ping" ]
-      interval: 100ms
+      interval: 10s
       timeout: 1s
       retries: 5
 
@@ -34,7 +34,7 @@ services:
       - redis
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://sold_items:8080/check/sold_items/ping" ]
-      interval: 100ms
+      interval: 10s
       timeout: 1s
       retries: 5
 
@@ -44,7 +44,7 @@ services:
       - redis
     healthcheck:
       test: ["CMD", "curl", "-f", "http://users:8080/check/users/ping"]
-      interval: 100ms
+      interval: 10s
       timeout: 1s
       retries: 5
 
