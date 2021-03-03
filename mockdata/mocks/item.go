@@ -27,8 +27,6 @@ func (mock mockItem) Do(externalId int) (*domain.Item, error) {
 		return nil, fmt.Errorf("unable to store item struct into storage due to: %s", err)
 	}
 
-	fmt.Printf("generated Item: %v", item)
-
 	return item, nil
 }
 

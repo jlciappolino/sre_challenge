@@ -31,7 +31,6 @@ func (mock mockUser) Do(externalId int, items []*domain.Item) {
 		return
 	}
 
-	fmt.Printf("stored user: %v", user)
 }
 
 func generateUserMockData(id int) *domain.User {
