@@ -1,4 +1,4 @@
-package domain
+package internal
 
 import "encoding/json"
 
@@ -6,8 +6,6 @@ import "encoding/json"
 type Item struct {
 	ID          string  `json:"id" faker:"-"`
 	Description string  `json:"description" faker:"word"`
-	Price       float64 `json:"price" faker:"amount"`
-	Currency	string	`json:"currency" faker:"-"`
 }
 
 func (s *Item) MarshalBinary() ([]byte, error) {

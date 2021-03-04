@@ -8,6 +8,7 @@ type User struct {
 	Type   string `json:"type" faker:"oneof: buyer, seller"`
 	Name   string `json:"name" faker:"name"`
 	Status string `json:"status" faker:"oneof: active, inactive"`
+	Sold_items []Item `json:"sold_items" faker:"-"`
 }
 
 func (s *User) MarshalBinary() ([]byte, error) {

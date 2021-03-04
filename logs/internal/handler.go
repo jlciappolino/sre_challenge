@@ -1,7 +1,9 @@
 package internal
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
@@ -31,7 +33,7 @@ func NewPubSubHandler(s *redis.Client) *pubsubHandler {
 	}
 }
 
-func (ps *pubsubHandler) NewTopic(c *gin.Context){
+func (ps *pubsubHandler) NewTopic(c *gin.Context) {
 	ctx := context.Background()
 
 	sUUID := uuid.Must(uuid.NewRandom())
@@ -48,7 +50,7 @@ func (ps *pubsubHandler) NewTopic(c *gin.Context){
 	return
 }
 
-func (ps *pubsubHandler) AddConsumer (c *gin.Context){
+func (ps *pubsubHandler) AddConsumer (c *gin.Context) {
 	topicName := c.Param("topicname")
 	var endPointPath Endpoint
 
@@ -78,7 +80,7 @@ func (ps *pubsubHandler) AddConsumer (c *gin.Context){
 	}
 }
 
-func (ps *pubsubHandler) WriteLog (c *gin.Context){
+func (ps *pubsubHandler) WriteLog (c *gin.Context) {
 	var topicMsg MsgTopic
 	ctx := context.Background()
 	topicName := c.Param("topicname")
@@ -94,13 +96,43 @@ func (ps *pubsubHandler) WriteLog (c *gin.Context){
 			ps.storage.Publish(ctx,topicName, topicMsg)
 		}else{
 			for _, endpoint := range endpoints {
-				//TODO: post to the consumer
+
 				fmt.Printf("Broadcast to %s -> %s\n", topicName, endpoint)
+				json_data, err := json.Marshal(topicMsg)
+
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"message": "was a problem building the request"})
+					return
+				}
+
+				resp, err := http.Post(endpoint, "application/json",
+					bytes.NewBuffer(json_data))
+
+				if err != nil {
+					c.JSON(http.StatusInternalServerError, gin.H{"message": "error when post the data to the consumer"})
+					return
+				}
+
+				var res map[string]interface{}
+
+				json.NewDecoder(resp.Body).Decode(&res)
+
+				if resp.StatusCode == 201 {
+					if err != nil {
+						c.JSON(resp.StatusCode, "Sended")
+						return
+					}
+				}else{
+					if err != nil {
+						c.JSON(resp.StatusCode, res)
+						return
+					}
+				}
 			}
 		}
 	}
 
-	c.JSON(http.StatusOK, "Sended")
+	c.JSON(http.StatusCreated, "Sended")
 	return
 }
 

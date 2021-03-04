@@ -14,7 +14,7 @@ func main() {
 
 	handler := internal.NewPubSubHandler(rdb.Client)
 
-	r.POST("/pubsub/new/", handler.NewTopic)
+	r.POST("/pubsub/new", handler.NewTopic)
 	r.POST("/pubsub/subscribe/:topicname", handler.AddConsumer)
 	r.POST("/pubsub/send/:topicname", handler.WriteLog)
 

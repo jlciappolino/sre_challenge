@@ -33,5 +33,6 @@ func (mock mockItem) Do(externalId int) (*domain.Item, error) {
 func generateItemMockData(id int) *domain.Item {
 	item := new(domain.Item)
 	faker.FakeData(item)
+	item.Currency = "USD"
 	return item
 }

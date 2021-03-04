@@ -8,8 +8,6 @@ import (
 	"net/http"
 )
 
-var pingResponse = gin.H{"message": "pong"}
-
 func main() {
 	r := apitools.NewChallengeRouter()
 

@@ -2,28 +2,26 @@ package internal
 
 import (
 	"context"
-	"net/http"
-
-	"github.com/go-redis/redis/v8"
-
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
+	"net/http"
 )
 
-//UsersHandler handle requests
-type UsersHandler struct {
+type SoldItem struct {
 	storage *redis.Client
 }
 
-func NewUserHandler(s *redis.Client) *UsersHandler {
-	return &UsersHandler{
+func NewSoldItemsHandler(s *redis.Client) *SoldItem {
+	return &SoldItem{
 		storage: s,
 	}
 }
 
-//Get find user by id
-func (h *UsersHandler) Get(c *gin.Context) {
+//Get find soldItems by userid
+func (h *SoldItem) Get(c *gin.Context) {
 	ctx := context.Background()
 	var user User
+
 	id := c.Param("id")
 
 	u, err := h.storage.Get(ctx, "user-"+id).Result()
@@ -41,7 +39,7 @@ func (h *UsersHandler) Get(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, user)
+	c.JSON(http.StatusOK, user.Sold_items)
 
 	return
 }

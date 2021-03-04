@@ -4,19 +4,20 @@ import (
 	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strings"
 )
 
 type currencyController struct{}
 
-var conversions = map[string]float64{"usd": 155.00}
+var conversions = map[string]float64{"USD": 155.00}
 
-func NewCurrencyController() currencyController{
+func NewCurrencyController() currencyController {
 	return currencyController{}
 }
 
-func (c currencyController) Get(g *gin.Context){
-	id := g.Param("id")
-	value, err := getValue(	id)
+func (c currencyController) Get(g *gin.Context) {
+	id := strings.ToUpper(g.Param("id"))
+	value, err := getValue(id)
 	if err!=nil{
 		g.JSON(http.StatusBadRequest,gin.H{"error": err.Error()})
 		return
@@ -25,7 +26,7 @@ func (c currencyController) Get(g *gin.Context){
 	return
 }
 
-func getValue(simbol string) (float64, error){
+func getValue(simbol string) (float64, error) {
 	if value,exists:= conversions[simbol]; exists{
 		return value, nil
 	}
