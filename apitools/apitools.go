@@ -15,7 +15,7 @@ func NewChallengeRouter() *gin.Engine {
 
 	rand.Seed(time.Now().Unix())
 
-	chaosMiddleware := NewChaoticMiddleware(8)
+	chaosMiddleware := NewChaoticMiddleware(0)
 
 	r.Use(chaosMiddleware.Handle)
 

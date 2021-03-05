@@ -5,12 +5,12 @@ config:
       - "user_id"
   target: http://localhost:8080
   phases:
-    - duration: 10
-      arrivalRate: 10
-      rampTo: 100
+    - duration: 60
+      arrivalRate: 1
+      rampTo: 10
       name: "Warm up the application"
-    - duration: 10
-      arrivalRate: 100
+    - duration: 300
+      arrivalRate: 10
       name: "Sustained max load"
   defaults:
     headers:

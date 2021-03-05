@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
@@ -55,19 +54,19 @@ func main() {
 		var sum float64 = 0
 		var sumUSD float64 = 0
 		for _, item := range items {
-			currencyResponse, err := get("http://front/currency_conversions/" + item.Currency)
-			if err != nil {
-				c.AbortWithError(http.StatusInternalServerError, errors.Wrap(err, "fail currency_conversions api"))
-				return
-			}
-			currencyValue, err := strconv.ParseFloat(fmt.Sprintf("%s", currencyResponse), 64)
-			if err != nil {
-				c.AbortWithError(http.StatusInternalServerError, errors.Wrap(err, "unexpectd value from currency_conversions api"))
-				return
-			}
+			// currencyResponse, err := get("http://front/currency_conversions/" + item.Currency)
+			// if err != nil {
+			// 	c.AbortWithError(http.StatusInternalServerError, errors.Wrap(err, "fail currency_conversions api"))
+			// 	return
+			// }
+			// currencyValue, err := strconv.ParseFloat(fmt.Sprintf("%s", currencyResponse), 64)
+			// if err != nil {
+			// 	c.AbortWithError(http.StatusInternalServerError, errors.Wrap(err, "unexpectd value from currency_conversions api"))
+			// 	return
+			// }
 
 			sumUSD = sumUSD + item.Price
-			sum = sum + (item.Price * currencyValue)
+			sum = sum + (item.Price * 155.0)
 		}
 
 		c.JSON(http.StatusOK, gin.H{
