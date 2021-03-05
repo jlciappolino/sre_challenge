@@ -58,7 +58,7 @@ services:
       timeout: 1s
       retries: 5
 
-  ngnix:
+  front:
     build: ./nginx/
     ports:
       - 8080:80
