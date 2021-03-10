@@ -16,24 +16,29 @@ func main() {
 	mockItem := mocks.NewMockItem(redis)
 
 	idItem := 0
+	items := []*domain.Item{}
 
-	for i := 1; i < 20; i++ {
-		items := []*domain.Item{}
-
-		rand.Seed(time.Now().UnixNano())
-
-		for j := 1; j < rand.Intn(10); j++ {
-			idItem++
-			item, err := mockItem.Do(idItem)
-			if err != nil {
-				fmt.Printf("unable to initialize item data due to: %s\n", err.Error())
-				continue
-			}
-
-			items = append(items, item)
+	for j := 1; j < 10; j++ {
+		idItem++
+		item, err := mockItem.Do(idItem)
+		if err != nil {
+			fmt.Printf("unable to initialize item data due to: %s\n", err.Error())
+			continue
 		}
 
-		mockUsers.Do(i, items)
+		items = append(items, item)
+	}
+
+	for i := 1; i < 20; i++ {
+		var itemsToUser []*domain.Item
+
+		rand.Seed(time.Now().UnixNano()+int64(i))
+		r := rand.New(rand.NewSource(time.Now().Unix()+int64(i)))
+		for _, i := range r.Perm(len(items)) {
+			itemsToUser = append(itemsToUser, items[i])
+		}
+
+		mockUsers.Do(i, itemsToUser[:rand.Intn(len(itemsToUser))])
 
 	}
 	fmt.Print("========================Finish mock data========================\n")

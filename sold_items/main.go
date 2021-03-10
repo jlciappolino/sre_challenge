@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/jlciappolino/sre_challenge/apitools"
 	"github.com/jlciappolino/sre_challenge/apitools/infra"
-	"github.com/jlciappolino/sre_challenge/sold_items/internal"
+	"github.com/mercadolibre/sre_challenge/sold_items/internal"
 	"net/http"
 )
 

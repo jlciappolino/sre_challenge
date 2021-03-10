@@ -8,12 +8,19 @@ services:
       - redis
 
   client:
-    build: ./client
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - api_name=client
 
   currency_conversions:
     build: 
       context: ./
-      dockerfile: currency_conversions/Dockerfile
+      dockerfile: Dockerfile
+      args:
+        - api_name=currency_conversions
+
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://currency_conversions:8080/check/currency_conversions/ping" ]
       interval: 10s
@@ -23,7 +30,10 @@ services:
   items:
     build:
       context: ./
-      dockerfile: items/Dockerfile
+      dockerfile: Dockerfile
+      args:
+        - api_name=items
+
     depends_on:
       - redis
     healthcheck:
@@ -35,8 +45,10 @@ services:
   sold_items:
     build:
       context: ./
-      dockerfile: sold_items/Dockerfile
-    
+      dockerfile: Dockerfile
+      args:
+        - api_name=sold_items
+
     depends_on:
       - redis
     healthcheck:
@@ -48,7 +60,9 @@ services:
   users:
     build: 
       context: ./
-      dockerfile: users/Dockerfile
+      dockerfile: Dockerfile
+      args:
+        - api_name=users
 
     depends_on:
       - redis
@@ -59,7 +73,12 @@ services:
       retries: 5
 
   logs:
-    build: ./logs
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        - api_name=logs
+
     depends_on:
       - redis
     healthcheck:
