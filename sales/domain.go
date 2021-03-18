@@ -21,8 +21,8 @@ type Item struct {
 	Currency string  `json:"currency" faker:"-"`
 }
 
-type Result struct{
-	User_id string `json:"user_id"`
-	Total float64  `json:"total"`
+type Result struct {
+	User_id   string  `json:"user_id"`
+	Total     float64 `json:"total"`
 	Total_usd float64 `json:"sumUSD"`
 }

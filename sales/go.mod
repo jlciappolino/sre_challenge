@@ -1,4 +1,4 @@
-module github.com/jlciappolino/sre_challenge/client
+module github.com/jlciappolino/sre_challenge/sales
 
 go 1.15
 

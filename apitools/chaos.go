@@ -21,12 +21,17 @@ type chaoticMiddleware struct {
 	changeFactor    int
 	mu              *sync.Mutex
 	chaosStrategies []chaosStrategy
+	avgRT           int
+}
+
+func (m *chaoticMiddleware) avgTime() time.Duration {
+	return time.Duration(m.avgRT + rand.Intn(50)*(1-rand.Intn(3)))
 }
 
 func (m *chaoticMiddleware) Handle(c *gin.Context) {
-	if strings.Contains(c.FullPath(),"check"){
-		m.chaosStrategy = m.chaosStrategies[0]
-	}else{
+	time.Sleep(time.Millisecond * m.avgTime())
+
+	if !strings.Contains(c.FullPath(), "check") {
 		m.chaosStrategy.MakeChaos(c)
 
 		if rand.Intn(100) < m.changeFactor {
@@ -42,7 +47,7 @@ func (m *chaoticMiddleware) changeStrategy() {
 }
 
 //NewChaoticMiddleware instanciate a chaotic middleware
-func NewChaoticMiddleware(factor int) *chaoticMiddleware {
+func NewChaoticMiddleware(factor int, avgResponseTime int) *chaoticMiddleware {
 	chaosStrategies := []chaosStrategy{
 		new(noChaos),
 		new(errorChaos),
@@ -50,6 +55,7 @@ func NewChaoticMiddleware(factor int) *chaoticMiddleware {
 	}
 
 	return &chaoticMiddleware{
+		avgRT:           avgResponseTime,
 		chaosStrategy:   chaosStrategies[0],
 		changeFactor:    factor,
 		mu:              &sync.Mutex{},

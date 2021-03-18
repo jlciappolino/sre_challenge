@@ -5,30 +5,32 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
+	"net/url"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
-	"net/http"
-	"net/url"
 )
 
-type pubsubHandler struct{
-	storage *redis.Client
+type pubsubHandler struct {
+	storage    *redis.Client
 	TopicNames map[string]map[string]string
 }
 
 type Endpoint struct {
-	Url   string `json:"url"`
+	Url string `json:"url"`
 }
 
-type MsgTopic struct{
-	Msg        string   `json:"msg"`
-	Attributes []string `json:"attributes"`
+type MsgTopic struct {
+	Msg      string `json:"msg"`
+	Category string `json:"category"`
+	api      string `json:"api"`
 }
 
 func NewPubSubHandler(s *redis.Client) *pubsubHandler {
 	return &pubsubHandler{
-		storage: s,
+		storage:    s,
 		TopicNames: map[string]map[string]string{},
 	}
 }
@@ -40,17 +42,17 @@ func (ps *pubsubHandler) NewTopic(c *gin.Context) {
 
 	topicName := sUUID.String()
 
-	if _, exists := ps.TopicNames[topicName]; !exists{
+	if _, exists := ps.TopicNames[topicName]; !exists {
 		ps.TopicNames[topicName] = map[string]string{}
 	}
 
-	ps.storage.PubSubChannels(ctx,topicName)
+	ps.storage.PubSubChannels(ctx, topicName)
 
 	c.JSON(http.StatusCreated, topicName)
 	return
 }
 
-func (ps *pubsubHandler) AddConsumer (c *gin.Context) {
+func (ps *pubsubHandler) AddConsumer(c *gin.Context) {
 	topicName := c.Param("topicname")
 	var endPointPath Endpoint
 
@@ -59,28 +61,28 @@ func (ps *pubsubHandler) AddConsumer (c *gin.Context) {
 		return
 	}
 
-	if !validUrl(endPointPath.Url){
+	if !validUrl(endPointPath.Url) {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "You must to sent a valid endpoint"})
 		return
 	}
 
-	if _, exists := ps.TopicNames[topicName]; exists{
-		if ps.TopicNames[topicName] == nil{
-			ps.TopicNames[topicName] = map[string]string{endPointPath.Url:endPointPath.Url}
-		}else{
-			if _, exists := ps.TopicNames[topicName][endPointPath.Url]; !exists{
+	if _, exists := ps.TopicNames[topicName]; exists {
+		if ps.TopicNames[topicName] == nil {
+			ps.TopicNames[topicName] = map[string]string{endPointPath.Url: endPointPath.Url}
+		} else {
+			if _, exists := ps.TopicNames[topicName][endPointPath.Url]; !exists {
 				ps.TopicNames[topicName][endPointPath.Url] = endPointPath.Url
 			}
 		}
 		c.JSON(http.StatusCreated, "Added")
 		return
-	}else{
+	} else {
 		c.JSON(http.StatusCreated, "Topic doesnt exists, please create a new topic.")
 		return
 	}
 }
 
-func (ps *pubsubHandler) WriteLog (c *gin.Context) {
+func (ps *pubsubHandler) WriteLog(c *gin.Context) {
 	var topicMsg MsgTopic
 	ctx := context.Background()
 	topicName := c.Param("topicname")
@@ -91,10 +93,10 @@ func (ps *pubsubHandler) WriteLog (c *gin.Context) {
 	}
 
 	//broadcasting the messages to the topic
-	if endpoints, exists := ps.TopicNames[topicName];exists {
-		if len(endpoints) == 0{
-			ps.storage.Publish(ctx,topicName, topicMsg)
-		}else{
+	if endpoints, exists := ps.TopicNames[topicName]; exists {
+		if len(endpoints) == 0 {
+			ps.storage.Publish(ctx, topicName, topicMsg)
+		} else {
 			for _, endpoint := range endpoints {
 
 				fmt.Printf("Broadcast to %s -> %s\n", topicName, endpoint)
@@ -122,7 +124,7 @@ func (ps *pubsubHandler) WriteLog (c *gin.Context) {
 						c.JSON(resp.StatusCode, "Sended")
 						return
 					}
-				}else{
+				} else {
 					if err != nil {
 						c.JSON(resp.StatusCode, res)
 						return
@@ -140,6 +142,3 @@ func validUrl(str string) bool {
 	u, err := url.Parse(str)
 	return err == nil && u.Scheme != "" && u.Host != ""
 }
-
-
-

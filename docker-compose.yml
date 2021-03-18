@@ -7,12 +7,12 @@ services:
     depends_on:
       - redis
 
-  client:
+  sales:
     build:
       context: ./
       dockerfile: Dockerfile
       args:
-        - api_name=client
+        - api_name=sales
 
   currency_conversions:
     build: 
@@ -24,7 +24,7 @@ services:
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://currency_conversions:8080/check/currency_conversions/ping" ]
       interval: 10s
-      timeout: 1s
+      timeout: 1.5s
       retries: 5
 
   items:
