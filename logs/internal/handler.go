@@ -13,6 +13,16 @@ import (
 	"github.com/google/uuid"
 )
 
+type ConsumerConfig struct {
+	Name string `json:"name"`
+	URL  string `json:"url"`
+}
+
+type TopicConfig struct {
+	Name      string           `json:"name"`
+	Consumers []ConsumerConfig `json:"consumers"`
+}
+
 type pubsubHandler struct {
 	storage    *redis.Client
 	TopicNames map[string]map[string]string
@@ -25,7 +35,7 @@ type Endpoint struct {
 type MsgTopic struct {
 	Msg      string `json:"msg"`
 	Category string `json:"category"`
-	api      string `json:"api"`
+	Api      string `json:"api"`
 }
 
 func NewPubSubHandler(s *redis.Client) *pubsubHandler {
@@ -35,24 +45,25 @@ func NewPubSubHandler(s *redis.Client) *pubsubHandler {
 	}
 }
 
-func (ps *pubsubHandler) NewTopic(c *gin.Context) {
-	ctx := context.Background()
-
+func (ps *pubsubHandler) NewTopicHandler(c *gin.Context) {
 	sUUID := uuid.Must(uuid.NewRandom())
 
 	topicName := sUUID.String()
 
-	if _, exists := ps.TopicNames[topicName]; !exists {
-		ps.TopicNames[topicName] = map[string]string{}
-	}
-
-	ps.storage.PubSubChannels(ctx, topicName)
+	ps.AddTopic(topicName)
 
 	c.JSON(http.StatusCreated, topicName)
 	return
 }
 
-func (ps *pubsubHandler) AddConsumer(c *gin.Context) {
+func (ps *pubsubHandler) AddTopic(topicName string) {
+	if _, exists := ps.TopicNames[topicName]; !exists {
+		ps.TopicNames[topicName] = map[string]string{}
+	}
+	ps.storage.PubSubChannels(context.Background(), topicName)
+}
+
+func (ps *pubsubHandler) AddConsumerHandler(c *gin.Context) {
 	topicName := c.Param("topicname")
 	var endPointPath Endpoint
 
@@ -79,6 +90,20 @@ func (ps *pubsubHandler) AddConsumer(c *gin.Context) {
 	} else {
 		c.JSON(http.StatusCreated, "Topic doesnt exists, please create a new topic.")
 		return
+	}
+}
+
+func (ps *pubsubHandler) AddConsumer(topicName string, c ConsumerConfig) {
+	if _, exists := ps.TopicNames[topicName]; exists {
+		if ps.TopicNames[topicName] == nil {
+			ps.TopicNames[topicName] = map[string]string{c.URL: c.URL}
+		} else {
+			if _, exists := ps.TopicNames[topicName][c.URL]; !exists {
+				ps.TopicNames[topicName][c.URL] = c.URL
+			}
+		}
+	} else {
+		panic("topic not exists")
 	}
 }
 

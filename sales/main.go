@@ -11,9 +11,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func suscribe() {
+}
+
 func main() {
 
+	suscribe()
 	r := gin.Default()
+
+	r.POST("/sales/consumer", func(c *gin.Context) {
+		d, _ := c.GetRawData()
+		fmt.Printf("[consumer] recibido: %s\n", d)
+
+		c.JSON(http.StatusOK, fmt.Sprintf("%s", d))
+		return
+	})
 
 	r.GET("/sales/:id", func(c *gin.Context) {
 		user_id := c.Param("id")

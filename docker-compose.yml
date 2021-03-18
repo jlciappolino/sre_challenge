@@ -8,11 +8,14 @@ services:
       - redis
 
   sales:
+    depends_on:
+      - logs
     build:
       context: ./
       dockerfile: Dockerfile
       args:
         - api_name=sales
+        
 
   currency_conversions:
     build: 
@@ -81,11 +84,15 @@ services:
 
     depends_on:
       - redis
+    volumes: 
+      - ./logs/topics.cfg:/app/topics.cfg:ro
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://logs:8080/check/pubsub/ping" ]
       interval: 10s
       timeout: 1s
       retries: 5
+    environment:
+      config_path: /app/topics.cfg
 
   front:
     build: ./nginx/
